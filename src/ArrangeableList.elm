@@ -18,6 +18,8 @@ module ArrangeableList
 {-| This is sort of like a Zip-List data structure - but instead of focusing on a speicific list item - it retains the focuson the same item and moves
 that item around in the list.
 
+@docs ArrangeableList
+
 
 # Constructing
 
@@ -31,7 +33,7 @@ that item around in the list.
 
 # Manipulating the List
 
-@docs progress, regrogress
+@docs progress, retrogress
 
 
 # Transformation
@@ -43,6 +45,7 @@ that item around in the list.
 import Array exposing (Array)
 
 
+{-| -}
 type ArrangeableList a
     = ArrangeableList a (List a) (List a)
 
