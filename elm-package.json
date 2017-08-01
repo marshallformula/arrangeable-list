@@ -1,6 +1,6 @@
 {
     "version": "1.0.0",
-    "summary": "Ordered List that allows moving items around",
+    "summary": "Ordered List that allows moving an item around within the list",
     "repository": "https://github.com/user/project.git",
     "license": "BSD3",
     "source-directories": [
