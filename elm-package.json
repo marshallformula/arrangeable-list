@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "summary": "Ordered List that allows moving an item around within the list",
-    "repository": "git@github.com:marshallformula/arrangeable-list.git",
+    "repository": "https://github.com/marshallformula/arrangeable-list.git",
     "license": "BSD3",
     "source-directories": [
         "src"
