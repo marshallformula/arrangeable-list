@@ -1,6 +1,8 @@
 module Main exposing (main)
 
 import Html exposing (..)
+import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import ArrangeableList exposing (..)
 
 
@@ -31,7 +33,12 @@ init =
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    ( model, Cmd.none )
+    case msg of
+        MoveDown ->
+            ( { model | stuff = ArrangeableList.progress model.stuff }, Cmd.none )
+
+        MoveUp ->
+            ( { model | stuff = retrogress model.stuff }, Cmd.none )
 
 
 
@@ -40,7 +47,17 @@ update msg model =
 
 listItem : String -> Html Msg
 listItem val =
-    li [] [ text val ]
+    li [ style [ ( "padding", "1rem" ) ] ] [ text val ]
+
+
+mainStyle : Attribute Msg
+mainStyle =
+    style
+        [ ( "width", "600px" )
+        , ( "margin", "auto" )
+        , ( "margin-top", "50px" )
+        , ( "font-family", "Raleway, Helvetica, Arial, sans-serif" )
+        ]
 
 
 view : Model -> Html Msg
@@ -50,17 +67,17 @@ view { stuff } =
             List.map listItem (getPreList stuff)
 
         select =
-            listItem (getSelected stuff)
+            li [ style [ ( "background-color", "pink" ), ( "padding", "1rem" ) ] ] [ text <| getSelected stuff ]
 
         post =
             List.map listItem (getPostList stuff)
     in
-        div []
+        div [ mainStyle ]
             [ div []
-                [ button [] [ text "Move Up" ]
-                , button [] [ text "Move Down" ]
+                [ button [ onClick MoveUp ] [ text "Move Up" ]
+                , button [ onClick MoveDown ] [ text "Move Down" ]
                 ]
-            , ul [] (pre ++ (select :: post))
+            , ul [ style [ ( "list-style-type", "none" ) ] ] (pre ++ (select :: post))
             ]
 
 

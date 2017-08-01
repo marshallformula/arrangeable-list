@@ -73,7 +73,7 @@ getSelected (ArrangeableList selected pre post) =
 
 getPreList : ArrangeableList a -> List a
 getPreList (ArrangeableList selected pre post) =
-    pre
+    List.reverse pre
 
 
 getPostList : ArrangeableList a -> List a
