@@ -13,6 +13,8 @@ module ArrangeableList
         , retrogress
         , toList
         , toArray
+        , isSelectedItem
+        , map
         )
 
 {-| This is sort of like a Zip-List data structure - but instead of focusing on a speicific list item - it retains the focuson the same item and moves
@@ -28,7 +30,7 @@ that item around in the list.
 
 # Extracting Values
 
-@docs getSelected, getPreList, getPostList
+@docs getSelected, getPreList, getPostList, isSelectedItem
 
 
 # Manipulating the List
@@ -38,7 +40,7 @@ that item around in the list.
 
 # Transformation
 
-@docs toList, toArray
+@docs toList, toArray, map
 
 -}
 
@@ -196,3 +198,17 @@ toArray : ArrangeableList a -> Array a
 toArray aList =
     toList aList
         |> Array.fromList
+
+
+{-| Uses equality check (==) to check if the given value is the currently selected item in the list
+-}
+isSelectedItem : a -> ArrangeableList a -> Bool
+isSelectedItem item (ArrangeableList selected pre post) =
+    selected == item
+
+
+{-| Apply a function to each item of the arrangeable list
+-}
+map : (a -> b) -> ArrangeableList a -> ArrangeableList b
+map fn (ArrangeableList selected pre post) =
+    ArrangeableList (fn selected) (List.map fn pre) (List.map fn post)

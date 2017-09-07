@@ -214,3 +214,30 @@ retrogressTests =
                     |> toList
                     |> Expect.equal [ "Napoleon", "Bill", "Ted", "Beethoven" ]
         ]
+
+
+isSelectedTest : Test
+isSelectedTest =
+    describe "tests that item supplied is the currently selected on in the arrangeable list"
+        [ test "correctly tests selection" <|
+            \_ ->
+                fromListAtHead excellentList "Napoleon"
+                    |> isSelectedItem "Napoleon"
+                    |> Expect.true "Napoleon should be selected"
+        , test "correctly reports non-correct selection" <|
+            \_ ->
+                fromListAtHead excellentList "Napoleon"
+                    |> isSelectedItem "Bill"
+                    |> Expect.false "Bill should not be selected"
+        ]
+
+
+mapTest : Test
+mapTest =
+    test "tests that the function is applied to all items" <|
+        \_ ->
+            fromListAtHead excellentList "Napoleon"
+                |> map String.toUpper
+                |> progress
+                |> toList
+                |> Expect.equal [ "BILL", "NAPOLEON", "TED", "BEETHOVEN" ]
