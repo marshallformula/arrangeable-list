@@ -1,21 +1,10 @@
-module ArrangeableList
-    exposing
-        ( ArrangeableList
-        , initialize
-        , fromArray
-        , fromList
-        , fromListAtHead
-        , fromListAtTail
-        , getSelected
-        , getPreList
-        , getPostList
-        , progress
-        , retrogress
-        , toList
-        , toArray
-        , isSelectedItem
-        , map
-        )
+module ArrangeableList exposing
+    ( ArrangeableList
+    , initialize, fromArray, fromList, fromListAtHead, fromListAtTail
+    , getSelected, getPreList, getPostList, isSelectedItem
+    , progress, retrogress
+    , toList, toArray, map
+    )
 
 {-| This is sort of like a Zip-List data structure - but instead of focusing on a speicific list item - it retains the focuson the same item and moves
 that item around in the list.
@@ -54,7 +43,7 @@ type ArrangeableList a
 
 {-| Initializes an ArrageableList given a list before (pre), list after (post), and the selected (focused) item.
 
-    initialize [] ["Batman", "Superman", "Green Lantern"] "Wonder Woman"
+    initialize [] [ "Batman", "Superman", "Green Lantern" ] "Wonder Woman"
 
 -}
 initialize : List a -> List a -> a -> ArrangeableList a
@@ -73,12 +62,12 @@ This returns a Maybe Arrageablelist. A Nothing is returned if the index is inval
 -}
 fromArray : Array a -> Int -> Maybe (ArrangeableList a)
 fromArray items idx =
-    case (Array.isEmpty items) of
+    case Array.isEmpty items of
         True ->
             Nothing
 
         False ->
-            case (Array.get idx items) of
+            case Array.get idx items of
                 Nothing ->
                     Nothing
 
@@ -92,13 +81,13 @@ fromArray items idx =
                             Array.slice (idx + 1) (Array.length items) items
                                 |> Array.toList
                     in
-                        Just <| initialize pre post val
+                    Just <| initialize pre post val
 
 
 {-| Create an ArrangeableList from a List and an integer that specifies an index in the list which should be the selected item.
 This returns a Maybe Arrageablelist. A Nothing is returned if the index is invalid/out of bounds.
 
-    fromArray ["Superman", "Batman", "Green Lantern"] 0
+    fromArray [ "Superman", "Batman", "Green Lantern" ] 0
 
 -}
 fromList : List a -> Int -> Maybe (ArrangeableList a)
@@ -108,7 +97,7 @@ fromList items idx =
 
 {-| Creates an ArrangeableList from a supplied List and a value - placing value at the head of the list.
 
-    fromListAtHead ["Superman", "Batman", "Green Lantern"] "WonderWoman"
+    fromListAtHead [ "Superman", "Batman", "Green Lantern" ] "WonderWoman"
 
 -}
 fromListAtHead : List a -> a -> ArrangeableList a
@@ -118,7 +107,7 @@ fromListAtHead items selected =
 
 {-| Creates and ArrangeableList from a supplied list and a value - placing the value at the tail of the list.
 
-    fromListAtHead ["Superman", "Batman", "Green Lantern"] "WonderWoman"
+    fromListAtHead [ "Superman", "Batman", "Green Lantern" ] "WonderWoman"
 
 -}
 fromListAtTail : List a -> a -> ArrangeableList a
@@ -158,7 +147,7 @@ getPostList (ArrangeableList selected pre post) =
 -}
 progress : ArrangeableList a -> ArrangeableList a
 progress ((ArrangeableList selected pre post) as aList) =
-    case (List.head post) of
+    case List.head post of
         Nothing ->
             aList
 
@@ -177,7 +166,7 @@ progress ((ArrangeableList selected pre post) as aList) =
 -}
 retrogress : ArrangeableList a -> ArrangeableList a
 retrogress ((ArrangeableList selected pre post) as aList) =
-    case (List.head pre) of
+    case List.head pre of
         Nothing ->
             aList
 
@@ -189,7 +178,7 @@ retrogress ((ArrangeableList selected pre post) as aList) =
 -}
 toList : ArrangeableList a -> List a
 toList (ArrangeableList selected pre post) =
-    (List.reverse pre) ++ (selected :: post)
+    List.reverse pre ++ (selected :: post)
 
 
 {-| Returns an Array of the items that compose the ArrangeableList.

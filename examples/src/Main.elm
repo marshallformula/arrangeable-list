@@ -1,9 +1,11 @@
 module Main exposing (main)
 
+import ArrangeableList exposing (..)
+import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import ArrangeableList exposing (..)
+
 
 
 -- Model
@@ -26,8 +28,8 @@ type Msg
 -- Update
 
 
-init : ( Model, Cmd Msg )
-init =
+init : flags -> ( Model, Cmd Msg )
+init flags =
     ( { stuff = fromListAtHead [ "Mabel", "Dipper", "Soos" ] "Gruncle Stan" }, Cmd.none )
 
 
@@ -47,43 +49,42 @@ update msg model =
 
 listItem : String -> Html Msg
 listItem val =
-    li [ style [ ( "padding", "1rem" ) ] ] [ text val ]
+    li [ style "padding" "1rem" ] [ text val ]
 
 
-mainStyle : Attribute Msg
-mainStyle =
-    style
-        [ ( "width", "600px" )
-        , ( "margin", "auto" )
-        , ( "margin-top", "50px" )
-        , ( "font-family", "Raleway, Helvetica, Arial, sans-serif" )
-        ]
-
-
-view : Model -> Html Msg
+view : Model -> Browser.Document Msg
 view { stuff } =
     let
         pre =
             List.map listItem (getPreList stuff)
 
         select =
-            li [ style [ ( "background-color", "pink" ), ( "padding", "1rem" ) ] ] [ text <| getSelected stuff ]
+            li [ style "background-color" "pink", style "padding" "1rem" ] [ text <| getSelected stuff ]
 
         post =
             List.map listItem (getPostList stuff)
     in
-        div [ mainStyle ]
+    { title = "Arrangeable List Example"
+    , body =
+        [ div
+            [ style "width" "600px"
+            , style "margin" "auto"
+            , style "margin-top" "50px"
+            , style "font-family" "Raleway, Helvetica, Arial, sans-serif"
+            ]
             [ div []
                 [ button [ onClick MoveUp ] [ text "Move Up" ]
                 , button [ onClick MoveDown ] [ text "Move Down" ]
                 ]
-            , ul [ style [ ( "list-style-type", "none" ) ] ] (pre ++ (select :: post))
+            , ul [ style "list-style-type" "none" ] (pre ++ (select :: post))
             ]
+        ]
+    }
 
 
-main : Program Never Model Msg
+main : Program {} Model Msg
 main =
-    Html.program
+    Browser.document
         { init = init
         , view = view
         , update = update
